@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Permissions-Policy" content="autoplay=(self)">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>PVP - HACKATHON</title>
+    <link rel="stylesheet" href="/media.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+      *{
+        font-family: 'Inter', sans-serif;
+      }
+      body 
+      { 
+        margin: 0;
+        padding: 0; 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        overflow-x: hidden;
+      }
+      header{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        justify-content: space-around;
+        padding: 6px 0px;
+        text-align: center;
+        background-color: white;
+        box-shadow: rgba(0, 0, 2, 0.4) 0px 2px 4px, rgba(50, 21, 240, 0.3) 0px 7px 13px -3px, rgba(25, 15, 213, 0.384) 0px -3px 0px inset;
+      }
+      #status{
+        width: 100%;
+        /* height: 300px; */
+        display: flex;
+        justify-content: space-evenly;
+        padding-bottom: 30px;
+        margin-top: 20px;
+        font-family: sans-serif;
+      }
+      .currCard, .nextCard{
+        width: 400px;
+        /* height: 100%; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+      }
+      .currCard{
+        /* background-color: #240046; */
+        color: #efefef;
+        perspective: 600px;
+        /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(245, 245, 245, 0.461) 0px -3px 0px inset; */
+      }
+      .currTeamName{
+        color: black;
+        background-color: #efefef;
+        padding: 5px 18px;
+        border-radius: 25px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 300px;
+        text-overflow: ellipsis;
+      }
+      .nextTeamName{
+        color: #efefef;
+        background-color: black;
+        padding: 5px 20px;
+        border-radius: 25px;
+        max-width: 300px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(245, 245, 245, 0.233) 0px -3px 0px inset;
+        white-space: nowrap;
+        /* overflow: hidden; */
+        text-overflow: ellipsis;
+        transform: translateZ(15rem);
+      }
+      .currTeamId , .NextTeamId{
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -1px;
+        /* font-family: monospace; */
+      }
+      .nextCard{
+        /* background-color: #ff9100; */
+        perspective: 600px;
+        /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
+      }
+      .statusHead{
+        /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+        letter-spacing: -2px;
+        opacity: 0.8;
+        font-size: 3rem;
+      }
+      /* #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); } */
+      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #input:focus { outline: none; }
+      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages > li { padding: 0.5rem 1rem; }
+      #messages > li:nth-child(odd) { background: #efefef; }
+      .queue{
+        width: 100%;
+        height: 250px;
+        background-color: #240046;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .queTeam{
+        display: inline-block;
+        width: 200px;
+        /* height: 100px; */
+        background-color: #efefef;
+        color: #240046;
+        margin-left: 30px;
+        padding: 0px 10px;
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+      }
+      .teamNAME{
+        font-weight: 400;
+        font-size: 1.7rem;
+        margin-top: 0;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #camImg{
+        width: 100%;
+        height: 100%;
+        background-color: #24004688;
+      }
+      a{
+        background-color: #efefef;
+        padding: 3px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .flip-card-inner, .curr-flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-style: preserve-3d;
+      }
+      
+
+      /* Do an horizontal flip when you move the mouse over the flip box container */
+      .currCard:hover .curr-flip-card-inner {
+        transform: rotateY(180deg);
+      }
+      .rot{
+        transform: rotateY(180deg);
+      }
+      /* Position the front and back side */
+      .flip-card-front, .flip-card-back, .curr-flip-card-front, .curr-flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden; /* Safari */
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+        text-align: center;
+        border-radius: 20px;
+        /* flex-wrap: wrap; */
+      }
+
+      /* Style the front side (fallback if image is missing) */
+      .flip-card-front {
+        /* background-color: blue; */
+        background: linear-gradient( #ffffff45,#ffffa5);
+        color: black;
+      }
+      .curr-flip-card-front{
+        background: linear-gradient( #ffffff45,#ffffa5);
+        color: black;
+      }
+      /* Style the back side */
+      .flip-card-back , .curr-flip-card-back {
+        /* background-color: #2980b9; */
+        background: linear-gradient( rgba(0, 0, 0, 0.338),green);
+        color: white;
+        transform: rotateY(180deg);
+      }
+      .teamID{
+        margin-bottom: 0 !important;
+      }
+      video{
+        z-index: -1;
+        position: absolute;
+        filter: blur(15px);
+        transform: scale(1.5);
+      }
+      .eventtitle{
+        color: white;
+      }
+      .loading{
+        position: fixed;
+        z-index: 100;
+        width: 100vw;
+        height: 100vh;
+        background-color: #020003;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+            
+      .hidden {
+        opacity: 0;
+        /* display: none !important; */
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="load" class="loading">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Youtube_loading_symbol_1_(wobbly).gif" alt="" srcset="">
+      <h3 style="color: white; font-size: 3rem;">Loading</h3>
+    </div>
+    <audio id="myAudio" autoplay controls src="/beep.wav" type="audio/wav" style="display: none;"></audio>
+
+    <header>
+      <img src="/logoC.png" id="clgL" width="70px" alt="">
+      <div>
+        <h1>Prasad V. Potluri Siddhartha Institute of Technology :: Autonomus</h1>
+        <p>Department of Computer Science and Engineering</p>
+      </div>
+      <img src="/sih.png" id="sih" width="120px" alt="">
+      <img src="/iic.png" id="sih" width="120px" alt="">
+    </header>
+    <section class="eventtitle">
+      <h2 class="eveTitle">PVPSIT Internal Ideathon Status <button id="aBtn">click to turn Audio Notifcation</button></h2>
+    </section>
+    <section id="status">
+      <!-- <div class="currCard">
+        <h2 class="statusHead">Current Team</h2>
+        <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+        <p class="currTeamId">Current Team not Available</p>
+        <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+        <h2 class="currTeamName">...</h2>
+      </div> -->
+      <div class="currCard">
+        <div class="curr-flip-card-inner">
+          <div class="curr-flip-card-front"> front
+            <h2 class="statusHead">Current Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="currTeamId">Current Team not Available</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="currTeamName">...</h2>
+          </div>
+          <div class="curr-flip-card-back"> back
+            <h2 class="statusHead">Current Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="currTeamId">Current Team not Available</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="currTeamName">...</h2>
+          </div>
+        </div>
+      </div>
+      <div class="nextCard">
+        <div class="flip-card-inner">
+          <div class="flip-card-front"> front
+            <h2 class="statusHead">Next Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="NextTeamId">Next Team not yet set</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="nextTeamName">....</h2>
+          </div>
+          <div class="flip-card-back"> back
+            <h2 class="statusHead">Next Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="NextTeamId">Next Team not yet set</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="nextTeamName">....</h2>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="nextCard">
+        <h2 class="statusHead">Next Team</h2>
+        <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+        <p class="NextTeamId">Next Team not yet set</p>
+        <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+        <h2 class="nextTeamName">...</h2>
+      </div> -->
+      <div class="nextCard" style="height: 372px; width: fit-content; background-color: black; overflow: hidden;">
+        <iframe width="460" height="215" src="https://www.youtube.com/embed/zCYYTEUGAAE" title="PVP SIH RPIVATE BROADCAST" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <!-- <iframe width="460" height="215" src="https://www.youtube.com/embed/4h2Mph0J6p0" title="PVP SIH RPIVATE BROADCAST" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+        <!-- <iframe width="460" height="215" src="https://www.youtube.com/embed/DVQ0LVzdijE" title="PVP SIH RPIVATE BROADCAST" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+        <!-- <iframe width="460" height="215" src="https://www.youtube.com/embed/OjlaUkllTss?si=ouC_gveK_O79hwIs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+      </div>
+    </section>
+   
+    <section class="queue">
+      <h2 style="color: #efefef;" id="Qtit">Queue List : </h2>
+      <div class="queTeam">
+        <h3 class="teamID">R1_PVP_CSE_HW_04</h3>
+        <h3 class="teamNAME">Straw Hats</h3>
+      </div>
+    </section>
+    <footer style="color: #efefef; background-color: #020003; width: 100%; height: 100%;justify-content: center; display: flex; align-items: center; flex-direction: column;">
+      <!-- <h2>SIH - Internal Hackathon Event Orgainizer Project</h2> -->
+      <div style="padding: 0px; display: flex; width: 100%; justify-content: space-between; flex-direction: row-reverse;">
+
+        <div id="cord" style="margin-right: 40px;">
+          <h3 style="margin-bottom: 0;">SIH - Internal Hackathon Event Orgainizer Project Guides </h3 >
+          <ul style="margin-top: 0;">
+            <li>Mr.B.Vishnu Vardhan</li>
+            <li>Dr.P.Sai Kiran</li>
+          </ul>
+        </div>
+        <div id="iic" style="margin-left: 40px;">
+          <h3 style="margin-bottom: 0;">IIC Members</h3 >
+          <ul style="margin-top: 0;">
+            <li>Dr. K. SIVAJI BABU, PRESIDENT IIC</li>
+            <li>Dr. V. JAGDISH, CONVENER IIC</li>
+            <li>Dr.A.Haritha, COORDINATOR IIC</li>
+          </ul>
+        </div>
+      </div>
+      <p>Developed By : 
+        <a href="https://www.linkedin.com/in/patchala-john-a62184251/" target="_blank">John.P</a>
+        <a href="https://www.linkedin.com/in/ande-rakesh-a2583a250/?lipi=urn%3Ali%3Apage%3Ad_flagship3_people_connections%3BsnQkBNg%2BQNCZ1VvfwHd0Og%3D%3D" target="_blank">Rakesh.A</a>
+        <a href="https://www.linkedin.com/in/vamsi-saripudi-a3051b1b6/?lipi=urn%3Ali%3Apage%3Ad_flagship3_people_connections%3BsnQkBNg%2BQNCZ1VvfwHd0Og%3D%3D" target="_blank">Vamsi.S</a>
+      </p>
+    </footer>
+    <video autoplay loop muted playsinline>
+      <source src="./pexels-mrcorvin- -15616428 (Original) (1).mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <!-- <audio controls id="sound">
+      <source src="/beep.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio> -->
+    <ul id="queue" style="display: none;"></ul>
+    <ul id="messages" style="display: none;"></ul>
+    <!-- <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var x = document.getElementById('myAudio')
+      const audioElement = new Audio("beep.wav");
+      var bool = true
+      var ccTeam={}
+      function myFunction() {
+        // var audio = new Audio('beep.wav');
+        // audio.play();
+        // Your code here
+        let audio = document.createElement('audio');
+        audio.src='./beep.wav';
+        audio.volume=0.2;
+        audio.autoplay=true;
+        audio.play;
+      }
+      document.getElementById("aBtn").addEventListener("click",()=>{
+        if(bool == true){
+
+          myFunction()
+          bool=false;
+        }
+      });
+      const socket = io();
+      document.getElementById("aBtn").click()
+      const input = document.getElementById('input');
+      const curr = document.getElementById('curr');
+      const next = document.getElementById('next');
+      const messages = document.getElementById('messages');
+      // socket.on('queue',(msg)=>console.log(msg))
+      function queueUpdate(msg){
+        document.getElementById('queue').innerHTML='';
+        msg.queue.forEach(element => {
+          document.getElementById('queue').innerHTML+=`<li>${element.queue}</li>`;
+        });
+        // curr.innerHTML=`the Current : ${msg.status.curr}`;
+        // next.innerHTML=`the next : ${msg.status.next}`;
+        // for(let i in msg){
+        //   console.log(msg[i])
+        //   document.getElementById('queue').innerHTML+=`<li>${msg[i]}</li>`;
+        // }
+        // pplay()
+      }
+
+      function setQueue(data){
+       
+        
+
+
+        //  audio1.play();
+        let container = document.getElementsByClassName('queue')[0];
+        container.innerHTML='<h2 style="color: #efefef;" id="Qtit">Queue List : </h2>'
+        data.queue.forEach(element => {
+          container.innerHTML+=`
+          <div class="queTeam">
+            <h3 class="teamID">${element.team_id}</h3>
+            <h3 class="teamNAME">${element.team_name}</h3>
+          </div>
+          `
+        });
+        myFunction()
+      }
+
+      function currTeam(m){
+        let samp = document.getElementsByClassName('curr-flip-card-inner');
+        //handling if current team is 0 not set or removed from queue
+        if(m.status.curr.length === 0){
+              if(samp[0].classList.contains('rot')){
+              let currTeam = document.getElementsByClassName('curr-flip-card-front')[0];
+              currTeam.innerHTML=`
+              <h2 class="statusHead">Current Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="currTeamId">Current Team not Available</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="currTeamName">...</h2>
+              `
+              samp[0].classList.remove('rot')
+            }else{
+              let currTeam = document.getElementsByClassName('curr-flip-card-back')[0];
+              currTeam.innerHTML=`
+              <h2 class="statusHead">Current Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="currTeamId">Current Team not Available</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="currTeamName">...</h2>
+              `
+              samp[0].classList.add('rot')
+            }
+          return
+        }
+        if(samp[0].classList.contains('rot')){
+          let currTeam = document.getElementsByClassName('curr-flip-card-front')[0];
+          currTeam.innerHTML=`
+          <h2 class="statusHead">Current Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="currTeamId">${m.status.curr[0].team_id}</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="currTeamName">${m.status.curr[0].team_name}</h2>
+          `
+          samp[0].classList.remove('rot')
+        }else{
+          let currTeam = document.getElementsByClassName('curr-flip-card-back')[0];
+          currTeam.innerHTML=`
+          <h2 class="statusHead">Current Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="currTeamId">${m.status.curr[0].team_id}</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="currTeamName">${m.status.curr[0].team_name}</h2>
+          `
+          samp[0].classList.add('rot')
+        }
+        return;
+        let con = document.getElementsByClassName('currCard')[0];
+        if(m.status.curr.length === 1 ){
+
+          con.innerHTML=`
+          <h2 class="statusHead">Current Team</h2>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+          <p class="currTeamId">${m.status.curr[0].team_id}</p>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+          <h2 class="currTeamName">${m.status.curr[0].team_name}</h2>
+          `
+        }else{
+          con.innerHTML=`
+          <h2 class="statusHead">Current Team</h2>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+          <p class="currTeamId">Current Team not Available</p>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+          <h2 class="currTeamName">...</h2>
+          `
+        }
+        
+      }
+      let sample = document.getElementsByClassName('flip-card-inner');
+      function rotate(){
+        if(sample[0].classList.contains('rot')){
+          sample[0].classList.remove('rot')
+        }else{
+          sample[0].classList.add('rot')
+        }
+      }
+      function nextTeam(m){
+        if(m.queue.length === 0){
+            if(sample[0].classList.contains('rot')){
+
+            let nxtTeam = document.getElementsByClassName('flip-card-front')[0];
+            nxtTeam.innerHTML=`
+            <h2 class="statusHead">Next Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="NextTeamId">Next Team not yet set</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="nextTeamName">....</h2>
+            `
+            }else{
+            let nxtTeam = document.getElementsByClassName('flip-card-back')[0];
+            nxtTeam.innerHTML=`
+            <h2 class="statusHead">Next Team</h2>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+            <p class="NextTeamId">Next Team not yet set</p>
+            <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+            <h2 class="nextTeamName">....</h2>
+            `
+            }
+            return
+        }
+        if(sample[0].classList.contains('rot')){
+
+          let nxtTeam = document.getElementsByClassName('flip-card-front')[0];
+          nxtTeam.innerHTML=`
+          <h2 class="statusHead">Next Team</h2>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+          <p class="NextTeamId">${m.queue[0].team_id}</p>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+          <h2 class="nextTeamName">${m.queue[0].team_name}</h2>
+          `
+        }else{
+          let nxtTeam = document.getElementsByClassName('flip-card-back')[0];
+          nxtTeam.innerHTML=`
+          <h2 class="statusHead">Next Team</h2>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+          <p class="NextTeamId">${m.queue[0].team_id}</p>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+          <h2 class="nextTeamName">${m.queue[0].team_name}</h2>
+          `
+        }
+        return;
+        let nxt = document.getElementsByClassName('nextCard')[0];
+        nxt.innerHTML=`
+        <h2 class="statusHead">Next Team</h2>
+        <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+        <p class="NextTeamId">${m.queue[0].team_id}</p>
+        <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+        <h2 class="nextTeamName">${m.queue[0].team_name}</h2>
+        `
+        console.log('next team setting block')
+        console.log(m.queue.length)
+        if(m.queue.length === 0){
+          nxt.innerHTML=`
+          <h2 class="statusHead">Next Team</h2>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+          <p class="NextTeamId">Next Team not yet set</p>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+          <h2 class="nextTeamName">...</h2>
+          `
+        }
+        
+        
+      }
+      socket.on('queue',(msg)=>{
+        ccTeam = msg.queue[0];
+        console.log('queue listener of socket')
+        console.log(msg.queue.length === 0)
+        if(msg.queue.length === 0){
+          return;
+          document.getElementsByClassName('nextCard')[0].innerHTML=`
+          <h2 class="statusHead">Next Team</h2>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team ID :</p>
+          <p class="NextTeamId">Next Team not yet set</p>
+          <p style="margin-bottom: 0px; font-size: 1.2rem; font-style: italic;">Team Name :</p>
+          <h2 class="nextTeamName">...</h2>
+          
+          `
+        }
+        queueUpdate(msg)
+        // jplayAudio()
+        console.log(msg)
+        setQueue(msg)
+        currTeam(msg)
+        nextTeam(msg)
+        // location.reload()
+        setTimeout(() => {
+          rotate()
+          myFunction()
+          // nextTeam(msg)
+        }, 800);
+        // startAudio()
+
+
+
+      });
+      document.getElementById("aBtn").click()
+      // var video = []
+      // let idx = 0; 
+      // socket.on('camData',(data)=>{
+      //   console.log('cama data came')
+      //   // setInterval(() => {
+          
+      //   //   document.getElementById('camImg').src = data
+      //   // }, interval);
+      //   video = [...video,...data]
+      // })
+      // // function playVideo(data){
+
+      // // }
+      // setInterval(() => {
+      //   if(video.length > 0){
+      //     document.getElementById('camImg').src = video.pop()
+      //   }
+      // }, 1000/30);
+
+      document.addEventListener("DOMContentLoaded", function() {
+        // Wait for the page to load
+
+        // Get the element you want to animate
+        const element = document.getElementById("load");
+
+        // Remove the "loading" class after a delay (1 second in this example)
+        setTimeout(function() {
+          element.classList.remove("loading");
+          element.classList.add("hidden");
+          setTimeout(()=>{
+            element.style.display='none'
+          },100)
+        }, 2000); // 1000 milliseconds = 1 second
+      });
+
+    </script>
+  </body>
+</html>
