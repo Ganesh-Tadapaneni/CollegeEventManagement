@@ -2,6 +2,7 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server, Socket } = require('socket.io');
+const port = process.env.PORT || 4000;
 
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -266,6 +267,6 @@ io.of("/evaluator").on("connection",(socket)=>{
   
 })
 
-server.listen(5000, () => {
-  console.log('server running at http://localhost:5000');
+server.listen(port, () => {
+  console.log('server running at http://localhost:'+port);
 });

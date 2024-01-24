@@ -555,6 +555,11 @@
         
         
       }
+      
+      socket.on('live',(msg)=>{
+        console.log(document.getElementsByTagName('iframe'))
+      })
+      
       socket.on('queue',(msg)=>{
         ccTeam = msg.queue[0];
         console.log('queue listener of socket')
