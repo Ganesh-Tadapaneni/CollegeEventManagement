@@ -3,7 +3,7 @@ const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server, Socket } = require('socket.io');
 const port = process.env.PORT || 4000;
-
+require('dotenv').config()
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
