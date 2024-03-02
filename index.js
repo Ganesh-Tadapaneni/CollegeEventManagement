@@ -131,16 +131,16 @@ app.get('/volunteer',(req,res)=>{
 app.get('/evaluator',(req,res)=>{
 
   try{
-    if(sha256(req.cookies.auth) === 'e4545e80bf167d4b592abdf0b63c61c3a6a7b3e57d408ae057028edf4337293c'){
+    if(sha256(req.cookies.auth) === 'b0b4df86a1580b5f33f2b436c83219b0d7efd32209747fbb2883b70855d7c21b'){
       res.sendFile(join(__dirname, 'pages/evaluator.html'));
     }
-    else if(sha256(req.cookies.auth) === '9aded2fa55d675be7430e1884f8ab180799bd115a5fc1008c782a36189b4852f'){
+    else if(sha256(req.cookies.auth) === 'eb2d2190d3b55d3e46f3a86a6c885228c36956f64a297bf130b4163c6c6196f3'){
       res.sendFile(join(__dirname, 'pages/evaluator2.html'));
     }
-    else if(sha256(req.cookies.auth) === '9940272de041fc30359216a0e97bbc8353046a7dd11c733044cffbb4e637d91c'){
+    else if(sha256(req.cookies.auth) === '5c7ab9d20ef044dd6e61d66450d78b7e9c5d0eeb7634eb302adec394178ebd2a'){
       res.sendFile(join(__dirname, 'pages/evaluator3.html'));
     }
-    else if(sha256(req.cookies.auth) === '088730471503a8c174d9cbf6a20b27b8a63b548a58a425d8dd2a9641c2e1efe9'){
+    else if(sha256(req.cookies.auth) === '855440376d64e718401066c23a92917c82ca3f3ee1e38f965e19003f6174c861'){
       res.sendFile(join(__dirname, 'pages/evaluator4.html'));
     }
     else{
